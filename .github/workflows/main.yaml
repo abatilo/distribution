@@ -19,9 +19,12 @@ jobs:
       - run: |
           CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -ldflags="-w -s -X main.ReleaseVersion=${GITHUB_REF_NAME}" -o distribution_darwin_arm64 main.go
 
-          chmod +x distribution_darwin_arm64
-
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           files: distribution_darwin_arm64
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distribution
+          path: distribution_darwin_arm64
