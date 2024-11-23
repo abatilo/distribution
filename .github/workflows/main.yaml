@@ -15,8 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
+
       - run: |
-          CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -ldflags="-w -s" -o distribution_darwin_arm64 main.go
+          CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -ldflags="-w -s -X main.ReleaseVersion=${GITHUB_REF_NAME}" -o distribution_darwin_arm64 main.go
 
       - name: Release
         uses: softprops/action-gh-release@v2
