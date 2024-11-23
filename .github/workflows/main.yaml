@@ -12,3 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
+      - run: |
+          CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -ldflags="-w -s" -o distribution main.go
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distribution
+          path: distribution
