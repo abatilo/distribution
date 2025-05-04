@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/Masterminds/semver/v3"
 	"github.com/minio/selfupdate"
 )
 
@@ -25,20 +26,10 @@ func doUpdate(url string) error {
 }
 
 func main() {
-	var input string
-	fmt.Println("Do you want to update? (yes/no)")
-	fmt.Scanln(&input)
+	currentVersion := semver.MustParse("v0.0.0")
+	newVersion := semver.MustParse("v0.0.1")
 
-	if input == "yes" {
-		err := doUpdate(
-			"https://github.com/abatilo/distribution/releases/download/v0.0.5/distribution_darwin_arm64",
-		)
-		if err != nil {
-			fmt.Printf("Error: %s\n", err)
-			return
-		}
-		fmt.Println("Update successful. Exiting.")
-		return
+	if newVersion.GreaterThan(currentVersion) {
+		fmt.Printf("New version available: %s\n", newVersion)
 	}
-	fmt.Printf("Hello from version: %s\n", ReleaseVersion)
 }
